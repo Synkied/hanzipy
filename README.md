@@ -1,3 +1,6 @@
+# README IN PROGRESS, CURRENTLY TAKEN AND ADAPTED FROM HANZI PROJECT
+https://github.com/nieldlr/hanzi
+
 # Hanzipy
 
 Hanzipy is a Chinese character and NLP module for Chinese language processing for python.  
