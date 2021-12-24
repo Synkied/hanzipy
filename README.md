@@ -378,18 +378,9 @@ water
 
 Hanzipy is used in the following projects:
 
-* [HanziCraft](http://hanzicraft.com)
-
 ## Contributors
 
-* [nieldlr (Author)](http://github.com/nieldlr)
-* [djuretic](http://github.com/djuretic)
-* [nikdvp](http://github.com/nikvdp)
-* [hermanschaaf](http://github.com/hermanschaaf)
-* [raylillywhite](http://github.com/raylillywhite)
-* [zurawiki](http://github.com/zurawiki)
-* [zedwill](http://github.com/zedwill)
-* [mkmoisen](http://github.com/mkmoisen)
+* [synkied (Author)](https://github.com/synkied)
 
 ## License
 
