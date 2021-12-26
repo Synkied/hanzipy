@@ -971,7 +971,7 @@ class TestDictionary:
         with pytest.raises(KeyError) as kerr:
             hanzi_dictionary.definition_lookup("這", "simplified")
 
-        assert str(kerr.value) == "'這 not available in simplified dictionary'"
+        assert str(kerr.value) == "'這 not available in simplified dictionary.'"
 
         # no result
         with pytest.raises(NotAHanziCharacter):
