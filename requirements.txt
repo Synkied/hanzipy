@@ -1,5 +1,4 @@
 attrs==21.2.0
--e git+git@github.com:Synkied/hanzipy.git@e7b2794983edb5223f03b2647de74373e4826302#egg=hanzipy
 iniconfig==1.1.1
 packaging==21.3
 pluggy==1.0.0
