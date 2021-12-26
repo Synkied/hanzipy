@@ -1,5 +1,8 @@
 # Hanzipy
-<p align="center"><a href="https://circleci.com/gh/Synkied/hanzipy"><img src="https://circleci.com/gh/Synkied/hanzipy.svg?style=svg" alt="TravisCI Build Status"/></a>
+<p align="center">
+    <a href="https://circleci.com/gh/Synkied/hanzipy">
+        <img src="https://circleci.com/gh/Synkied/hanzipy.svg?style=svg" alt="TravisCI Build Status"/>
+    </a>
 </p>
 
 
