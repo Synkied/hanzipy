@@ -10,6 +10,7 @@ orbs:
   # so you dont have to copy and paste it everywhere.
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/python
   python: circleci/python@1.2
+  coveralls: coveralls/coveralls@1.0.6
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
@@ -45,11 +46,19 @@ jobs:
             coverage html  # open htmlcov/index.html in a browser
       - store_artifacts:
           path: htmlcov
+  send-to-coveralls:
+    docker:
+      # replace with your preferred image
+      - image: cimg/base:stable
+    steps:
+      - coveralls/upload:
+          token: $COVERALLS_TOKEN 
+          path_to_lcov: .coverage 
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  build-test-cover:
     jobs:
       - build-and-test
+      - send-to-coveralls
