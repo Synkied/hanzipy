@@ -1,5 +1,6 @@
 # Hanzipy
-[![Synkied](https://circleci.com/gh/Synkied/hanzipy.svg?style=svg)](https://circleci.com/gh/Synkied/hanzipy)
+<p align="center"><a href="https://circleci.com/gh/Synkied/hanzipy"><img src="https://circleci.com/gh/Synkied/hanzipy.svg?style=svg" alt="TravisCI Build Status"/></a>
+</p>
 
 
 Hanzipy is a Chinese character and NLP module for Chinese language processing for python.  
