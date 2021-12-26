@@ -46,12 +46,14 @@ jobs:
             coverage html  # open htmlcov/index.html in a browser
       - store_artifacts:
           path: htmlcov
-  done:
-      docker:
-        - image: cimg/python:3.8
-      steps:
-        - coveralls/upload:
-            parallel_finished: true
+  send-to-coveralls:
+    docker:
+      # replace with your preferred image
+      - image: cimg/base:stable
+    steps:
+      - coveralls/upload:
+          token: $COVERALLS_TOKEN 
+          path_to_lcov: .coverage 
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
