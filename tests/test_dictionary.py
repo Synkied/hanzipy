@@ -925,9 +925,13 @@ class TestDictionary:
         with pytest.raises(NotAHanziCharacter):
             result = hanzi_dictionary.get_character_frequency("test")
 
-    def test_get_character_in_frequency_list_by_position(self, hanzi_dictionary):
+    def test_get_character_in_frequency_list_by_position(
+        self, hanzi_dictionary
+    ):
         # CAREFUL: bound to change, dependent on entry data for char frequency
-        result = hanzi_dictionary.get_character_in_frequency_list_by_position(111)
+        result = hanzi_dictionary.get_character_in_frequency_list_by_position(
+            111
+        )
         assert result == {
             "number": 111,
             "character": "机",
@@ -955,5 +959,24 @@ class TestDictionary:
             },
         ]
 
-        result = hanzi_dictionary.definition_lookup("test")
-        assert result is None
+        result = hanzi_dictionary.definition_lookup("這", "traditional")
+        print(result)
+
+        assert result == [
+            {
+                "traditional": "這",
+                "simplified": "这",
+                "pinyin": "zhe4",
+                "definition": "this/these/(commonly pr. [zhei4] before a classifier, esp. in Beijing)",
+            }
+        ]
+
+        # traditional but user asked simplified
+        with pytest.raises(KeyError) as kerr:
+            hanzi_dictionary.definition_lookup("這", "simplified")
+
+        assert str(kerr.value) == "'這 not available in simplified dictionary'"
+
+        # no result
+        with pytest.raises(NotAHanziCharacter):
+            hanzi_dictionary.definition_lookup("test")

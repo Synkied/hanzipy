@@ -38,7 +38,9 @@ class HanziDecomposer:
                 openbracket = decomposition.index("(")
                 closebracket = decomposition.index(")")
                 decomposition_type = decomposition[0:openbracket]
-                components = decomposition[openbracket + 1 : closebracket].split(
+                components = decomposition[
+                    openbracket + 1 : closebracket
+                ].split(
                     ","
                 )  # noqa
                 self.characters[character] = {
@@ -47,14 +49,18 @@ class HanziDecomposer:
                 }
 
         # Reading in radical list
-        radical_filepath = "{}/data/radical_with_meanings.json".format(CURRENT_DIR)
+        radical_filepath = "{}/data/radical_with_meanings.json".format(
+            CURRENT_DIR
+        )
         with open(radical_filepath) as radicals_file:
             self.radicals = json.load(radicals_file)
 
     def compile_all_components(
         self,
     ):
-        filepath = "{}/data/chinese_charfreq_simpl_trad.csv".format(CURRENT_DIR)
+        filepath = "{}/data/chinese_charfreq_simpl_trad.csv".format(
+            CURRENT_DIR
+        )
         with open(filepath) as freq_file:
             csvreader = csv.reader(freq_file)
             next(csvreader, None)  # skip the headers
@@ -67,11 +73,17 @@ class HanziDecomposer:
                 for component in decomposition["once"]:
                     if component not in self.characters_with_component:
                         if component != self.noglyph:
-                            self.characters_with_component.setdefault(component, [])
-                            self.characters_with_component[component].append(character)
+                            self.characters_with_component.setdefault(
+                                component, []
+                            )
+                            self.characters_with_component[component].append(
+                                character
+                            )
 
                     elif component != self.noglyph:
-                        self.characters_with_component[component].append(character)
+                        self.characters_with_component[component].append(
+                            character
+                        )
 
                 for component in decomposition["radical"]:
                     if component not in self.characters_with_component:
@@ -83,9 +95,12 @@ class HanziDecomposer:
                                 [],
                             )
                             if self.is_unique(
-                                self.characters_with_component[component], character
+                                self.characters_with_component[component],
+                                character,
                             ):  # noqa
-                                self.characters_with_component[component].append(
+                                self.characters_with_component[
+                                    component
+                                ].append(
                                     character
                                 )  # noqa
 
@@ -93,9 +108,12 @@ class HanziDecomposer:
                             RADICAL_REGEX, component
                         ):
                             if self.is_unique(
-                                self.characters_with_component[component], character
+                                self.characters_with_component[component],
+                                character,
                             ):  # noqa
-                                self.characters_with_component[component].append(
+                                self.characters_with_component[
+                                    component
+                                ].append(
                                     character
                                 )  # noqa
 
@@ -197,7 +215,9 @@ class HanziDecomposer:
 
             if len(components) == 2:
                 for j in range(2):
-                    final_array.extend(self.radical_decomposition(components[j]))
+                    final_array.extend(
+                        self.radical_decomposition(components[j])
+                    )
             else:
                 final_array.append(character)
 
@@ -250,7 +270,9 @@ class HanziDecomposer:
 
             for component in components:
                 if self.characters_with_component[component]:
-                    characters.extend(self.characters_with_component[component])
+                    characters.extend(
+                        self.characters_with_component[component]
+                    )
 
             return characters
         else:

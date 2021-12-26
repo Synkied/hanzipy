@@ -49,12 +49,12 @@ The `dictionary` is has the name implies, focused on providing dictionary entrie
 
 #### dictionary.definition_lookup(character/word, script_type=None)
 
-Returns a dictionary entry object. Script type is optional.
+Returns a dictionary entry object. ```script_type``` is optional.
 
-Script type parameters:
+```script_type``` parameters:
 
-- "s" - Simplified
-- "t" - Traditional
+- "simplified" - Simplified
+- "traditional" - Traditional
 
 ```python
 print(dictionary.definition_lookup("雪"))
@@ -73,13 +73,23 @@ print(dictionary.definition_lookup("雪"))
         "definition": "snow/CL:場|场[chang2]/(literary) to wipe away (a humiliation etc)",  # noqa
     },
 ]
+
+print(dictionary.definition_lookup("這", "traditional"))
+[
+    {
+        "traditional": "這",
+        "simplified": "这",
+        "pinyin": "zhe4",
+        "definition": "this/these/(commonly pr. [zhei4] before a classifier, esp. in Beijing)",
+    }
+]
 ```
 
 #### dictionary.dictionary_search(characters, search_type=None)
 
-Searches the dictionary based on input. Search type changes what data it returns. Defaults to
+Searches the dictionary based on input. ```search_type``` changes what data it returns. Defaults to None.
 
-Search type paramaters:
+```search_type``` parameters:
 
 - "only" - this parameter returns only entries with the characters specfied. This is a means to find all compounds words with the characters specified.
 - None - returns all occurences of the character.

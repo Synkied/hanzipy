@@ -117,7 +117,9 @@ class TestDecomposer:
         assert result is False
 
     def test_all_radicals(self, hanzi_decomposer):
-        radical_filepath = "{}/data/radical_with_meanings.json".format(CURRENT_DIR)
+        radical_filepath = "{}/data/radical_with_meanings.json".format(
+            CURRENT_DIR
+        )
         with open(radical_filepath) as radicals_file:
             radicals = json.load(radicals_file)
             for radical in radicals.keys():
