@@ -925,13 +925,9 @@ class TestDictionary:
         with pytest.raises(NotAHanziCharacter):
             result = hanzi_dictionary.get_character_frequency("test")
 
-    def test_get_character_in_frequency_list_by_position(
-        self, hanzi_dictionary
-    ):
+    def test_get_character_in_frequency_list_by_position(self, hanzi_dictionary):
         # CAREFUL: bound to change, dependent on entry data for char frequency
-        result = hanzi_dictionary.get_character_in_frequency_list_by_position(
-            111
-        )
+        result = hanzi_dictionary.get_character_in_frequency_list_by_position(111)
         assert result == {
             "number": 111,
             "character": "机",

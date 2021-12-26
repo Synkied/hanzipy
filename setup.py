@@ -1,28 +1,46 @@
 from setuptools import find_packages, setup
 
-VERSION = '0.0.1'
-DESCRIPTION = 'Hanzi decomposition and dictionary'
-LONG_DESCRIPTION = 'Hanzi decomposition and dictionary'
+from hanzipy import __version__ as version  # noqa  # isort:skip
+
+DESCRIPTION = "Hanzi decomposition and dictionary"
+LONG_DESCRIPTION = "Hanzi decomposition and dictionary"
+EXTRAS_DEV_TEST = [
+    "coverage",
+    "pytest>=3.10",
+]
 
 # Setting up
 setup(
-        name='hanzipy',
-        version=VERSION,
-        author='Quentin Lathière',
-        author_email='',
-        description=DESCRIPTION,
-        long_description=LONG_DESCRIPTION,
-        packages=find_packages(),
-        install_requires=[],
-        keywords=[
-            'python', 'hanzi', 'hanzipy', 'decomposition', 'cjk', 'dictionary',
-        ],
-        classifiers=[
-            'Development Status :: 3 - Alpha',
-            'Intended Audience :: Education',
-            'Programming Language :: Python :: 3',
-            'Operating System :: MacOS :: MacOS X',
-            'Operating System :: Microsoft :: Windows',
-            'Operating System :: POSIX',
-        ]
+    name="hanzipy",
+    version=version,
+    author="Quentin Lathière",
+    author_email="",
+    description=DESCRIPTION,
+    long_description=LONG_DESCRIPTION,
+    packages=find_packages(),
+    install_requires=[],
+    extras_require={
+        "dev": EXTRAS_DEV_TEST,
+        "dev-test": EXTRAS_DEV_TEST,
+    },
+    download_url=(
+        "https://github.com/Synkied/hanzipy/archive/%s.tar.gz" % version
+    ),
+    keywords=[
+        "python",
+        "hanzi",
+        "hanzipy",
+        "decomposition",
+        "cjk",
+        "dictionary",
+    ],
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3",
+        "Operating System :: MacOS :: MacOS X",
+        "Operating System :: Microsoft :: Windows",
+        "Operating System :: POSIX",
+    ],
 )

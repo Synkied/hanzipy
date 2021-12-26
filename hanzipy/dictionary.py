@@ -96,15 +96,11 @@ class HanziDictionary:
 
                 while hanzi_dict[0]["traditional"] == next_traditional_char(
                     idx + 1
-                ) and hanzi_dict[0]["simplified"] == next_simplified_char(
-                    idx + 1
-                ):
+                ) and hanzi_dict[0]["simplified"] == next_simplified_char(idx + 1):
                     hanzi_dict.append(get_elements(idx + 1))
                     idx += 1
 
-                simplified = self.dictionary_simplified.get(
-                    hanzi_dict[0]["simplified"]
-                )
+                simplified = self.dictionary_simplified.get(hanzi_dict[0]["simplified"])
                 traditional = self.dictionary_traditional.get(
                     hanzi_dict[0]["traditional"]
                 )
@@ -127,9 +123,7 @@ class HanziDictionary:
                         hanzi_dict[0]["traditional"]
                     ] = newhanzi_dict
                 else:
-                    self.dictionary_simplified[
-                        hanzi_dict[0]["simplified"]
-                    ] = hanzi_dict
+                    self.dictionary_simplified[hanzi_dict[0]["simplified"]] = hanzi_dict
                     self.dictionary_traditional[
                         hanzi_dict[0]["traditional"]
                     ] = hanzi_dict
@@ -153,9 +147,7 @@ class HanziDictionary:
                 elif script_type == "traditional":
                     return self.dictionary_traditional[word]
         except KeyError:
-            raise KeyError(
-                f"{word} not available in {script_type} dictionary."
-            )
+            raise KeyError(f"{word} not available in {script_type} dictionary.")
 
     def dictionary_search(self, character, character_type=None):
         """Types: Only = Just the characters and no alternatives.
@@ -170,9 +162,7 @@ class HanziDictionary:
                 if idx < len(character) - 1:
                     regexstring = regexstring + character[idx : idx + 1] + "|"
                 else:
-                    regexstring = (
-                        regexstring + character[idx : idx + 1] + ")+$"
-                    )
+                    regexstring = regexstring + character[idx : idx + 1] + ")+$"
 
         else:
             regexstring = "[" + character + "]"
@@ -295,8 +285,8 @@ class HanziDictionary:
         logging.debug("Starting to read frequency data")
 
         leiden_freq = "{}/data/leiden_freq_data.txt".format(CURRENT_DIR)
-        leiden_freq_no_variants = (
-            "{}/data/leiden_freq_variants_removed.txt".format(CURRENT_DIR)
+        leiden_freq_no_variants = "{}/data/leiden_freq_variants_removed.txt".format(
+            CURRENT_DIR
         )  # noqa
 
         with open(leiden_freq) as leiden_freq_file:
@@ -332,9 +322,7 @@ class HanziDictionary:
             logging.debug("Frequency data loaded")
 
     def load_irregular_phonetics(self):
-        irregular_phonetics = "{}/data/irregular_phonetics.txt".format(
-            CURRENT_DIR
-        )
+        irregular_phonetics = "{}/data/irregular_phonetics.txt".format(CURRENT_DIR)
 
         with open(irregular_phonetics) as irregular_phonetics_file:
             lines = irregular_phonetics_file.readlines()
@@ -421,9 +409,7 @@ class HanziDictionary:
                     # Compare the character pinyin
                     # to all possible phonetic pinyin pronunciations
                     for phon_pinyin in phonetic_pinyin:
-                        regularities[pinyin]["phonetic_pinyin"].append(
-                            phon_pinyin
-                        )
+                        regularities[pinyin]["phonetic_pinyin"].append(phon_pinyin)
                         regularities[pinyin]["component"].append(component)
                         regularities[pinyin]["regularity"].append(
                             self.get_regularity_scale(pinyin, phon_pinyin)
@@ -457,9 +443,7 @@ class HanziDictionary:
                     # Compare the character pinyin to
                     # all possible phonetic pinyin pronunciations
                     for phon_pinyin in phonetic_pinyin:
-                        regularities[pinyin]["phonetic_pinyin"].append(
-                            phon_pinyin
-                        )
+                        regularities[pinyin]["phonetic_pinyin"].append(phon_pinyin)
                         regularities[pinyin]["component"].append(component)
                         regularities[pinyin]["regularity"].append(
                             self.get_regularity_scale(pinyin, phon_pinyin)
