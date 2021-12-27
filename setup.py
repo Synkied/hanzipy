@@ -3,7 +3,6 @@ from setuptools import find_packages, setup
 from hanzipy import __version__ as version  # noqa  # isort:skip
 
 DESCRIPTION = "Hanzi decomposition and dictionary"
-LONG_DESCRIPTION = "Hanzi decomposition and dictionary"
 EXTRAS_DEV_TEST = [
     "coverage",
     "pytest>=3.10",
@@ -13,10 +12,11 @@ EXTRAS_DEV_TEST = [
 setup(
     name="hanzipy",
     version=version,
-    author="Quentin Lathière",
+    author="昆汀",
     author_email="synkx@hotmail.fr",
     description=DESCRIPTION,
-    long_description=LONG_DESCRIPTION,
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     url="https://github.com/Synkied/hanzipy",
     packages=find_packages(),
     install_requires=[],
