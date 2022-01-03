@@ -6,8 +6,6 @@ from hanzipy.exceptions import NotAHanziCharacter
 
 import pytest
 
-CURRENT_DIR = BASE_DIR = Path(__file__).parent.parent
-
 
 @pytest.fixture
 def hanzi_dictionary():

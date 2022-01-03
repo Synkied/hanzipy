@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 RADICAL_REGEX = r"[一丨丶⺀丿乙⺃乚⺄亅丷]"
-CURRENT_DIR = BASE_DIR = Path(__file__).parent.parent
+CURRENT_DIR = BASE_DIR = Path(__file__).parent
 
 
 class HanziDecomposer:
