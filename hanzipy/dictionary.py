@@ -8,7 +8,7 @@ from hanzipy.exceptions import NotAHanziCharacter
 
 logging.basicConfig(level=logging.DEBUG)
 
-CURRENT_DIR = BASE_DIR = Path(__file__).parent.parent
+CURRENT_DIR = BASE_DIR = Path(__file__).parent
 CCEDICT_STARTING_LINE = 30
 
 

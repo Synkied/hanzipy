@@ -19,6 +19,7 @@ setup(
     long_description_content_type='text/markdown',
     url="https://github.com/Synkied/hanzipy",
     packages=find_packages(),
+    include_package_data=True,
     install_requires=[],
     extras_require={
         "dev": EXTRAS_DEV_TEST,
