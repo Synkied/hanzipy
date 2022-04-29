@@ -565,6 +565,37 @@ class TestDictionary:
             },
         ]
 
+    def test_dictionary_search_exact(self, hanzi_dictionary):
+        result = hanzi_dictionary.dictionary_search("句", search_type="exact")
+        assert result == [
+            {
+                "traditional": "句",
+                "simplified": "句",
+                "pinyin": "gou1",
+                "definition": "variant of 勾[gou1]",
+            },
+            {
+                "traditional": "句",
+                "simplified": "句",
+                "pinyin": "ju4",
+                "definition": "sentence/clause/phrase/classifier for phrases or lines of verse",
+            },
+        ]
+
+        result = hanzi_dictionary.dictionary_search("不好意思", search_type="exact")
+        assert result == [
+            {
+                "traditional": "不好意思",
+                "simplified": "不好意思",
+                "pinyin": "bu4 hao3 yi4 si5",
+                "definition": "to feel embarrassed/to find it embarrassing/to be sorry (for inconveniencing sb)",
+            }
+        ]
+
+        result = hanzi_dictionary.dictionary_search("不对意思", search_type="exact")
+        assert result == []
+
+
     def test_get_examples(self, hanzi_dictionary):
         freq_keys = ["high_frequency", "mid_frequency", "low_frequency"]
         result = hanzi_dictionary.get_examples("句")

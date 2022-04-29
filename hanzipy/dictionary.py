@@ -149,35 +149,47 @@ class HanziDictionary:
         except KeyError:
             raise KeyError(f"{word} not available in {script_type} dictionary.")
 
-    def dictionary_search(self, character, character_type=None):
-        """Types: Only = Just the characters and no alternatives.
+    def dictionary_search(self, character, character_type=None, search_type=None):
+        """
+        character_type: 'only'
+        Just the characters and no alternatives.
         If not then finds all cases of that character
+
+        search_type: 'exact'
+        Find exact match for the character, no regex used, faster search.
         """
 
         search_result = []
         regexstring = "^("
 
-        if character_type == "only":
-            for idx, char in enumerate(character):
-                if idx < len(character) - 1:
-                    regexstring = regexstring + character[idx : idx + 1] + "|"
-                else:
-                    regexstring = regexstring + character[idx : idx + 1] + ")+$"
+        # do not use expensive regex and for loops
+        # if only one character searched
+        if search_type == "exact":
+            search_result.extend(self.dictionary_simplified.get(character, []))
 
+            # If there's nothing to be found,
+            # then try and look for traditional entries.
+            if len(search_result) == 0:
+                search_result.extend(self.dictionary_traditional.get(character, []))
         else:
-            regexstring = "[" + character + "]"
+            if character_type == "only":
+                for idx, char in enumerate(character):
+                    if idx < len(character) - 1:
+                        regexstring = regexstring + character[idx : idx + 1] + "|"
+                    else:
+                        regexstring = regexstring + character[idx : idx + 1] + ")+$"
+            else:
+                regexstring = "[" + character + "]"
 
-        # First check for simplified.
-        for word in self.dictionary_simplified:
-            if self.dictionary_simplified.get(word):
+            # First check for simplified.
+            for word in self.dictionary_simplified.keys():
                 if re.search(regexstring, word):
                     search_result.extend(self.dictionary_simplified[word])
 
-        # If there's nothing to be found,
-        # then try and look for traditional entries.
-        if len(search_result) == 0:
-            for word in self.dictionary_traditional:
-                if self.dictionary_simplified.get(word):
+            # If there's nothing to be found,
+            # then try and look for traditional entries.
+            if len(search_result) == 0:
+                for word in self.dictionary_traditional.keys():
                     if re.search(regexstring, word):
                         search_result.extend(self.dictionary_traditional[word])
 
