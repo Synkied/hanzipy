@@ -52,7 +52,7 @@ jobs:
       - image: cimg/base:stable
     steps:
       - coveralls/upload:
-          token: $COVERALLS_TOKEN 
+          token: ${COVERALLS_TOKEN}
           path_to_lcov: .coverage 
 
 # Invoke jobs via workflows
