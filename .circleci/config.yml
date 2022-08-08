@@ -61,5 +61,5 @@ workflows:
   build-test-cover:
     jobs:
       - build-and-test
-      - send-to-coveralls
-        context: hanzipy_context      
+      - send-to-coveralls:
+          context: hanzipy_context      
