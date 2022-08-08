@@ -61,3 +61,4 @@ workflows:
   build-test-cover:
     jobs:
       - build-and-test
+      - send-to-coveralls
