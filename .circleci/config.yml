@@ -62,5 +62,5 @@ workflows:
     jobs:
       - build-and-test
       - send-to-coveralls
-        context: hanzipy context
+        context: "hanzipy context"
       
