@@ -28,7 +28,7 @@ class HanziDecomposer:
     ):
         # Reading in cjk_decomp - Decomposition Database
         decomp_filepath = "{}/data/cjk_decomp.txt".format(CURRENT_DIR)
-        with open(decomp_filepath, encoding='utf-8') as decomp_file:
+        with open(decomp_filepath, encoding="utf-8") as decomp_file:
             lines = decomp_file.readlines()
 
             for line in lines:
@@ -48,14 +48,14 @@ class HanziDecomposer:
 
         # Reading in radical list
         radical_filepath = "{}/data/radical_with_meanings.json".format(CURRENT_DIR)
-        with open(radical_filepath, encoding='utf-8') as radicals_file:
+        with open(radical_filepath, encoding="utf-8") as radicals_file:
             self.radicals = json.load(radicals_file)
 
     def compile_all_components(
         self,
     ):
         filepath = "{}/data/chinese_charfreq_simpl_trad.csv".format(CURRENT_DIR)
-        with open(filepath, encoding='utf-8') as freq_file:
+        with open(filepath, encoding="utf-8") as freq_file:
             csvreader = csv.reader(freq_file)
             next(csvreader, None)  # skip the headers
 

@@ -15,7 +15,7 @@ setup(
     author="昆汀",
     author_email="synkx@hotmail.fr",
     description=DESCRIPTION,
-    long_description=open('README.md', encoding='utf-8').read(),
+    long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type='text/markdown',
     url="https://github.com/Synkied/hanzipy",
     packages=find_packages(),

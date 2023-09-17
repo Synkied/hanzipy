@@ -51,7 +51,7 @@ class HanziDictionary:
 
         ccedict_filepath = "{}/data/cedict_ts.u8".format(CURRENT_DIR)
 
-        with open(ccedict_filepath, encoding='utf-8') as ccedict_file:
+        with open(ccedict_filepath, encoding="utf-8") as ccedict_file:
             lines = ccedict_file.readlines()
             self.load_frequency_data()
 
@@ -301,7 +301,7 @@ class HanziDictionary:
             CURRENT_DIR
         )  # noqa
 
-        with open(leiden_freq, encoding='utf-8') as leiden_freq_file:
+        with open(leiden_freq, encoding="utf-8") as leiden_freq_file:
             lines = leiden_freq_file.readlines()
 
             for line in lines:
@@ -311,7 +311,7 @@ class HanziDictionary:
                 freq = splits[1]
                 self.word_freq[word] = freq
 
-        with open(leiden_freq_no_variants, encoding='utf-8') as leiden_freq_no_variants_file:
+        with open(leiden_freq_no_variants, encoding="utf-8") as leiden_freq_no_variants_file:
             lines = leiden_freq_no_variants_file.readlines()
 
             for line in lines:
@@ -336,7 +336,7 @@ class HanziDictionary:
     def load_irregular_phonetics(self):
         irregular_phonetics = "{}/data/irregular_phonetics.txt".format(CURRENT_DIR)
 
-        with open(irregular_phonetics, encoding='utf-8') as irregular_phonetics_file:
+        with open(irregular_phonetics, encoding="utf-8") as irregular_phonetics_file:
             lines = irregular_phonetics_file.readlines()
             for line in lines:
                 line = line.rstrip("\r\n")
