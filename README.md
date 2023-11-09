@@ -37,10 +37,10 @@ pip install hanzipy
 ### Initiate Hanzipy. Required.
 
 ```python
-# import dictionary
+# import decomposer
 from hanzipy.decomposer import HanziDecomposer
 decomposer = HanziDecomposer()
-# import decomposer
+# import dictionary
 from hanzipy.dictionary import HanziDictionary
 dictionary = HanziDictionary()
 
