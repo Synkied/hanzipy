@@ -37,10 +37,10 @@ pip install hanzipy
 ### Initiate Hanzipy. Required.
 
 ```python
-# import dictionary
+# import decomposer
 from hanzipy.decomposer import HanziDecomposer
 decomposer = HanziDecomposer()
-# import decomposer
+# import dictionary
 from hanzipy.dictionary import HanziDictionary
 dictionary = HanziDictionary()
 
@@ -441,7 +441,7 @@ print(decomposition)
 
 # Example of forced level decomposition
 
-decomposition = hanzi.decompose("爱", 2)
+decomposition = decomposer.decompose("爱", 2)
 print(decomposition)
 
 {"character": "爱", "components": ["爫", "冖", "𠂇", "又"]}
@@ -452,7 +452,7 @@ print(decomposition)
 A function that takes a string of characters and returns one object for all characters.
 
 ```python
-decomposition = hanzi.decompose_many("爱橄黃")
+decomposition = decomposer.decompose_many("爱橄黃")
 print(decomposition)
 
 {
