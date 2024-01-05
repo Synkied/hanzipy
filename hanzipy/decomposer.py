@@ -4,6 +4,7 @@ import json
 import logging
 import re
 from pathlib import Path
+from anytree import Node, RenderTree
 
 from hanzipy.exceptions import NotAHanziCharacter
 
@@ -12,6 +13,23 @@ logging.basicConfig(level=logging.DEBUG)
 
 RADICAL_REGEX = r"[一丨丶⺀丿乙⺃乚⺄亅丷]"
 CURRENT_DIR = BASE_DIR = Path(__file__).parent
+
+
+def remove_duplicates(list_items, charater):
+    item_set = set(list_items)
+    if charater in item_set:
+        item_set.remove(charater)
+    return list(item_set)
+
+
+# Traverses from the tree root and outputs the tree string representation
+def build_tree_string(root, character):
+    string = ""
+    for pre, fill, node in RenderTree(root):
+        string += "%s%s" % (pre, node.name) + "\n"
+    string = string.strip()
+
+    return "" if string == character else string
 
 
 class HanziDecomposer:
@@ -116,7 +134,7 @@ class HanziDecomposer:
     def decompose_many(self, characterstring, decomposition_type=None):
         characterstring = str(characterstring)
         # Not Hanzi
-        if not re.search(u"[\u4e00-\u9fff]", characterstring):
+        if not re.search("[\u4e00-\u9fff]", characterstring):
             raise NotAHanziCharacter(characterstring)
 
         decomposed_components = {}
@@ -138,6 +156,30 @@ class HanziDecomposer:
             )
 
         return decomposed_components
+
+    # Builds a tree reprentation of the radical decomposition of `character`
+    def tree(self, character):
+        character = character.replace(r"/\s/g", "")
+        if self.is_messy(character):
+            logging.error(self.is_messy(character))
+            return "Invalid Input"
+
+        decomposed_char = {}
+        tree = Node(character)
+        # tree.create_node(identifier = character, tag = character)
+
+        decomposed_char = {
+            "character": character,
+            "components": remove_duplicates(
+                self.tree_component_radical_decomposition(character, tree), character
+            ),
+            "tree": build_tree_string(tree, character),
+        }
+
+        string = json.dumps(decomposed_char)
+        jsonoutput = json.loads(string)
+
+        return jsonoutput
 
     def decompose(self, character, decomposition_type=None):
         """
@@ -190,6 +232,48 @@ class HanziDecomposer:
         components = self.get_components(character)
         return self.replace_numbers(components)
 
+    # Decomposes the character until reaching radicals, but including the components above too
+    def component_radical_decomposition(self, character):
+        final_array = []
+        if self.is_radical(character):
+            final_array.append(character)
+        else:
+            components = self.get_components(character)
+
+            final_array.append(character)  # Additional
+            if len(components) == 2:
+                for j in range(2):
+                    final_array.extend(
+                        self.component_radical_decomposition(components[j])
+                    )
+            else:
+                final_array.append(character)
+
+        return self.replace_numbers(final_array)
+
+    # Builds a tree representation and decomposes the character until reaching radicals, but including the components above too
+    def tree_component_radical_decomposition(self, character, tree):
+        final_array = []
+        if self.is_radical(character):
+            if character not in final_array:
+                final_array.append(character)
+        else:
+            components = self.get_components(character)
+
+            final_array.append(character)  # Additional
+            if len(components) == 2:
+                for child in components:
+                    for item in self.tree_component_radical_decomposition(
+                        child, Node(child, parent=tree)
+                    ):
+                        if item not in final_array:
+                            final_array.append(item)
+            else:
+                if character not in final_array:
+                    final_array.append(character)
+
+        return self.replace_numbers(final_array)
+
     def radical_decomposition(self, character):
         final_array = []
         if self.is_radical(character):
@@ -229,7 +313,8 @@ class HanziDecomposer:
                 finalreview.append(char)
 
             else:
-                finalreview.append("No glyph available")
+                # finalreview.append("No glyph available")
+                finalreview.append(char)
 
         return finalreview
 
@@ -282,7 +367,6 @@ class HanziDecomposer:
 
     def get_components(self, character):
         if self.component_exists(character):
-
             if self.characters[character]["decomposition_type"] == "c":
                 return character
             else:
