@@ -15,6 +15,18 @@ RADICAL_REGEX = r"[一丨丶⺀丿乙⺃乚⺄亅丷]"
 CURRENT_DIR = BASE_DIR = Path(__file__).parent
 
 
+# Adds an item to a list if it does not already exist
+def append_if_not_exists(list_items, new_item):
+    if new_item not in list_items:
+        list_items.append(new_item)
+
+
+# Adds an item to a list if it does not already exist
+def extend_if_not_exists(list_items, new_list_items):
+    for item in new_list_items:
+        append_if_not_exists(list_items, item)
+
+
 def remove_duplicates(list_items, charater):
     item_set = set(list_items)
     if charater in item_set:
@@ -170,9 +182,7 @@ class HanziDecomposer:
 
         decomposed_char = {
             "character": character,
-            "components": remove_duplicates(
-                self.tree_component_radical_decomposition(character, tree), character
-            ),
+            "components": self.tree_radical_up_decomposition(character, tree),
             "tree": build_tree_string(tree, character),
         }
 
@@ -186,7 +196,8 @@ class HanziDecomposer:
         Type of decomp:
         1 = Only 2 components，
         2 = Radical,
-        3 = Graphical
+        3 = Graphical,
+        4 = Radical and up
         """
         character = character.replace(r"/\s/g", "")
         if self.is_messy(character):
@@ -201,6 +212,7 @@ class HanziDecomposer:
                 "once": self.once_decomposition(character),
                 "radical": self.radical_decomposition(character),
                 "graphical": self.graphical_decomposition(character),
+                "radical_up": self.radical_up_decomposition(character),
             }
 
         elif decomposition_type == 1:
@@ -218,7 +230,11 @@ class HanziDecomposer:
                 "character": character,
                 "components": self.graphical_decomposition(character),
             }
-
+        elif decomposition_type == 4:
+            decomposed_char = {
+                "character": character,
+                "components": self.radical_up_decomposition(character),
+            }
         else:
             return
 
@@ -232,60 +248,59 @@ class HanziDecomposer:
         components = self.get_components(character)
         return self.replace_numbers(components)
 
-    # Decomposes the character until reaching radicals, but including the components above too
-    def component_radical_decomposition(self, character):
+    # Builds a tree representation and decomposes the character until reaching radicals, but including the components above too
+    def tree_radical_up_decomposition(self, character, tree):
         final_array = []
         if self.is_radical(character):
-            final_array.append(character)
+            append_if_not_exists(final_array, character)
         else:
             components = self.get_components(character)
 
-            final_array.append(character)  # Additional
+            append_if_not_exists(final_array, character)  # Additional
+
             if len(components) == 2:
-                for j in range(2):
-                    final_array.extend(
-                        self.component_radical_decomposition(components[j])
-                    )
+                for child in components:
+                    extend_if_not_exists(final_array, self.tree_radical_up_decomposition(child, Node(child, parent=tree)))  # fmt: skip
             else:
-                final_array.append(character)
+                append_if_not_exists(final_array, character)
 
         return self.replace_numbers(final_array)
 
-    # Builds a tree representation and decomposes the character until reaching radicals, but including the components above too
-    def tree_component_radical_decomposition(self, character, tree):
+    # Decomposes the character until reaching radicals, but including the containing components too
+    def radical_up_decomposition(self, character):
         final_array = []
         if self.is_radical(character):
-            if character not in final_array:
-                final_array.append(character)
+            append_if_not_exists(final_array, character)
+            # final_array.append(character)
         else:
             components = self.get_components(character)
 
-            final_array.append(character)  # Additional
+            final_array.append(character)  # Also add the containing components
             if len(components) == 2:
-                for child in components:
-                    for item in self.tree_component_radical_decomposition(
-                        child, Node(child, parent=tree)
-                    ):
-                        if item not in final_array:
-                            final_array.append(item)
+                for j in range(2):
+                    extend_if_not_exists(final_array, self.radical_up_decomposition(components[j]))  # fmt: skip
+                    # final_array.extend(self.radical_up_decomposition(components[j]))
             else:
-                if character not in final_array:
-                    final_array.append(character)
+                append_if_not_exists(final_array, character)
+                # final_array.append(character)
 
         return self.replace_numbers(final_array)
 
     def radical_decomposition(self, character):
         final_array = []
         if self.is_radical(character):
-            final_array.append(character)
+            append_if_not_exists(final_array, character)
+            # final_array.append(character)
         else:
             components = self.get_components(character)
 
             if len(components) == 2:
                 for j in range(2):
-                    final_array.extend(self.radical_decomposition(components[j]))
+                    extend_if_not_exists(final_array, self.radical_decomposition(components[j]))  # fmt: skip
+                    # final_array.extend(self.radical_decomposition(components[j]))
             else:
-                final_array.append(character)
+                append_if_not_exists(final_array, character)
+                # final_array.append(character)
 
         return self.replace_numbers(final_array)
 
@@ -295,13 +310,15 @@ class HanziDecomposer:
         components = self.get_components(character)
         if len(components) == 2:
             for j in range(2):
-                final_array.extend(self.graphical_decomposition(components[j]))
-
+                extend_if_not_exists(final_array, self.graphical_decomposition(components[j]))  # fmt: skip
+                # final_array.extend(self.graphical_decomposition(components[j]))
         else:
             if not character.isdigit():
-                final_array.append(character)
+                append_if_not_exists(final_array, character)
+                # final_array.append(character)
             else:
-                final_array.extend(self.resolve_number(character))
+                extend_if_not_exists(final_array, self.resolve_number(character))
+                # final_array.extend(self.resolve_number(character))
 
         return final_array
 
