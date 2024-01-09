@@ -261,6 +261,9 @@ class HanziDecomposer:
             if len(components) == 2:
                 for child in components:
                     extend_if_not_exists(final_array, self.tree_radical_up_decomposition(child, Node(child, parent=tree)))  # fmt: skip
+            elif len(components) == 1:
+                Node(components[0], parent=tree)
+                append_if_not_exists(final_array, components[0])
             else:
                 append_if_not_exists(final_array, character)
 
@@ -280,6 +283,8 @@ class HanziDecomposer:
                 for j in range(2):
                     extend_if_not_exists(final_array, self.radical_up_decomposition(components[j]))  # fmt: skip
                     # final_array.extend(self.radical_up_decomposition(components[j]))
+            elif len(components) == 1:
+                append_if_not_exists(final_array, components[0])
             else:
                 append_if_not_exists(final_array, character)
                 # final_array.append(character)
@@ -298,6 +303,8 @@ class HanziDecomposer:
                 for j in range(2):
                     extend_if_not_exists(final_array, self.radical_decomposition(components[j]))  # fmt: skip
                     # final_array.extend(self.radical_decomposition(components[j]))
+            elif len(components) == 1:
+                append_if_not_exists(final_array, components[0])
             else:
                 append_if_not_exists(final_array, character)
                 # final_array.append(character)
@@ -316,6 +323,8 @@ class HanziDecomposer:
             if not character.isdigit():
                 append_if_not_exists(final_array, character)
                 # final_array.append(character)
+            elif len(components) == 1:
+                append_if_not_exists(final_array, components[0])
             else:
                 extend_if_not_exists(final_array, self.resolve_number(character))
                 # final_array.extend(self.resolve_number(character))
