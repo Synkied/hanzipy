@@ -54,7 +54,7 @@ class HanziDecomposer:
     def compile_all_components(
         self,
     ):
-        filepath = "{}/data/chinese_charfreq_simpl_trad.csv".format(CURRENT_DIR)
+        filepath = f"{CURRENT_DIR}/data/chinese_charfreq_simpl_trad.csv"
         with open(filepath, encoding="utf-8") as freq_file:
             csvreader = csv.reader(freq_file)
             next(csvreader, None)  # skip the headers
@@ -246,18 +246,19 @@ class HanziDecomposer:
         return numbers_cleared
 
     def get_characters_with_component(self, component):
+        print(self.characters_with_component.keys())
         if component in self.radicals.keys():
             components = self.find_same_meaning_radicals(component)
             characters = []
 
             for component in components:
-                if self.characters_with_component[component]:
-                    characters.extend(self.characters_with_component[component])
+                if self.characters_with_component.get(component):
+                    characters.extend(self.characters_with_component.get(component))
 
             return characters
         else:
             if component in self.characters_with_component.keys():
-                return self.characters_with_component[component]
+                return self.characters_with_component.get(component)
 
             return
 
